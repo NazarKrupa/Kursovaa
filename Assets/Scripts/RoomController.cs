@@ -5,6 +5,8 @@ using UnityEngine;
 public class RoomController : MonoBehaviour {
 
     List<Room> rooms = new List<Room>();
+    public bool normalPosition;
+    public Genereator generator;
 
     private void Start()
     {
@@ -21,28 +23,49 @@ public class RoomController : MonoBehaviour {
     {
         rooms[id].position = rooms[id].objectT.transform.position;
         rooms[id].lastPosition = true;
+
+        if(!normalPosition)
         CheckDone();
     }
+
 
     public void CheckDone()
     {
         int roomDone = 0;
+        int noNei = 0;
+        int stopmove = 0;
         for (int i = 0; i < rooms.Count; i++)
         {
             if (rooms[i].lastPosition == true)
             {
                 roomDone++;
             }
+
+            if (rooms[i].objectT.GetComponent<Streache>().nei.Count == 0)
+            {
+                noNei++;
+            }
+
+            if (rooms[i].objectT.GetComponent<Streache>().stop == true)
+            {
+                stopmove++;
+            }
         }
 
 
-        if (roomDone == rooms.Count)
+
+
+        if (roomDone == rooms.Count && noNei == rooms.Count && stopmove == rooms.Count)
         {
+            normalPosition = true;
+            Debug.Log("LastPosition" + roomDone + " " + rooms.Count);
             List<Vector3> position = new List<Vector3>();
             for (int i = 0; i < rooms.Count; i++)
             {
                 position.Add(rooms[i].position);
             }
+
+            generator.DrawCorridor();
 
 
             List<Vector2> data = new List<Vector2>();
@@ -56,11 +79,6 @@ public class RoomController : MonoBehaviour {
 
             data = Triangulation.GetVertices(data);
 
-            Debug.Log("Data" + data.Count);
-            for (int i = 0; i < data.Count; i++)
-            {
-                //Debug.Log(data[i]);
-            }
 
             List<Triangle> triangles = new List<Triangle>();
             List<Vector3> point = new List<Vector3>();
@@ -70,7 +88,7 @@ public class RoomController : MonoBehaviour {
             {
                 countIt++;
                 point.Add(new Vector3(data[i].x, 0, data[i].y));
-                Debug.Log(point[i]);
+                //Debug.Log(point[i]);
 
                 if (countIt == 3)
                 {
@@ -83,7 +101,7 @@ public class RoomController : MonoBehaviour {
                 }
             }
 
-            DrawTriangle(triangles);
+            //DrawTriangle(triangles);
         }
     }
 

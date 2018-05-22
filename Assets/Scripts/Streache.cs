@@ -28,6 +28,7 @@ public class Streache : MonoBehaviour {
             return;
         }
 
+
         if (nei.Count > 0)
         {
             for (int i = 0; i < nei.Count; i++)
@@ -48,26 +49,33 @@ public class Streache : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Обьект слишком близко");
-        if (stop)
-            stop = false;
+        if (other.gameObject.tag == "room")
+        {
+            //Debug.Log("Обьект слишком близко");
+            if (stop)
+                stop = false;
 
-        nei.Add(other.gameObject);
+            nei.Add(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log("Кто-то вышел из триггера");
-        for (int i = 0; i < nei.Count; i++)
+        if (other.gameObject.tag == "room")
         {
-            if (nei[i] == other.gameObject)
-                nei.Remove(nei[i]);
-        }
+            //Debug.Log("Кто-то вышел из триггера");
+            for (int i = 0; i < nei.Count; i++)
+            {
+                if (nei[i] == other.gameObject)
+                    nei.Remove(nei[i]);
+            }
 
-        if (nei.Count == 0)
-        {
-            stop = true;
-            controller.DoneMovePlatform(id);
+            if (nei.Count == 0)
+            {
+                stop = true;
+                controller.DoneMovePlatform(id);
+                //Cheack the neibor
+            }
         }
     }
 }

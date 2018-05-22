@@ -9,4 +9,7 @@ public class Room : MonoBehaviour {
     public Vector3 scale;
     public GameObject objectT;
     public bool lastPosition;
+    public GameObject findHeibor;
+
+    public List<GameObject> neibor = new List<GameObject>();
 }

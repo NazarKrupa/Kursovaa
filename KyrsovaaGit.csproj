@@ -302,6 +302,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Creator.cs" />
     <Compile Include="Assets\Scripts\DetectNeirborder.cs" />
+    <Compile Include="Assets\Scripts\FindNeirborder.cs" />
     <Compile Include="Assets\Scripts\Genereator.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
     <Compile Include="Assets\Scripts\RoomController.cs" />
